@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cherry Bot — Ultra-Fast Solana Tracking</title>
+  <meta name="description" content="Cherry Bot: The fastest on-chain buy tracker for Solana. Track buys in real-time, coordinate community raids, trending tokens, and community voting. Trusted by 12M+ users." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍒</text></svg>" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cherry: {
+              50: '#fff1f2',
+              100: '#ffe4e6',
+              200: '#fecdd3',
+              300: '#fda4af',
+              400: '#fb7185',
+              500: '#f43f5e',
+              600: '#e11d48',
+              700: '#be123c',
+              800: '#9f1239',
+              900: '#881337',
+            },
+            gold: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #050505;
+      color: #e5e5e5;
+    }
+    .grid-bg {
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .gold-gradient {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+    }
+    .gold-text {
+      background: linear-gradient(135deg, #fde68a 0%, #fbbf24 50%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .card {
+      background: rgba(20, 20, 20, 0.8);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+    }
+    .card:hover {
+      border-color: rgba(251, 191, 36, 0.3);
+      box-shadow: 0 0 30px rgba(251, 191, 36, 0.08);
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      color: #111;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-gold:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(251, 191, 36, 0.35);
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #22c55e;
+      animation: pulse 2s infinite;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+  <!-- Nav -->
+  <nav class="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-black/70 backdrop-blur-xl">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 group">
+        <span class="text-2xl">🍒</span>
+        <span class="text-lg font-bold tracking-tight text-white group-hover:text-gold-400 transition">CHERRY<span class="text-gold-400">BOT</span></span>
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-neutral-400">
+        <a href="#features" class="hover:text-white transition">Features</a>
+        <a href="#ecosystem" class="hover:text-white transition">Ecosystem</a>
+        <a href="#developers" class="hover:text-white transition">Developers</a>
+        <a href="https://t.me/CherryTGBot" target="_blank" rel="noopener" class="btn-gold px-5 py-2 rounded-full text-sm">
+          Add to Telegram
+        </a>
+      </div>
+      <a href="https://t.me/CherryTGBot" target="_blank" rel="noopener" class="md:hidden btn-gold px-4 py-2 rounded-full text-sm">
+        Add Bot
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="relative min-h-screen flex items-center pt-16 grid-bg overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black pointer-events-none"></div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 py-20 md:py-28 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-sm text-neutral-300 mb-8">
+        <span class="status-dot"></span>
+        System Operational
+      </div>
+      
+      <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.1] mb-6">
+        Ultra-Fast Solana<br>
+        <span class="gold-text">Tracking</span>
+      </h1>
+      
+      <p class="text-lg sm:text-xl text-neutral-400 max-w-2xl mx-auto mb-4">
+        Track Faster. Raid Harder. Look Richer.
+      </p>
+      <p class="text-neutral-500 max-w-xl mx-auto mb-10">
+        Track buys in real-time, coordinate community raids, and boost your token's visibility with our premium automation tools.
+      </p>
+      
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+        <a href="https://t.me/CherryTGBot" target="_blank" rel="noopener" class="btn-gold px-8 py-3.5 rounded-full text-base flex items-center gap-2">
+          Add to Telegram
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <a href="#stats" class="px-8 py-3.5 rounded-full border border-white/15 text-neutral-300 hover:bg-white/5 hover:text-white transition text-base">
+          View Live Stats
+        </a>
+      </div>
+
+      <!-- Social proof -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-neutral-500">
+        <div class="flex -space-x-2">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-emerald-600 border-2 border-black flex items-center justify-center text-xs">🤖</div>
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-indigo-600 border-2 border-black flex items-center justify-center text-xs">📈</div>
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-rose-600 border-2 border-black flex items-center justify-center text-xs">🔥</div>
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-orange-600 border-2 border-black flex items-center justify-center text-xs">⚡</div>
+        </div>
+        <span><strong class="text-white">12 Million+</strong> Active Users · Trusted by top Solana communities</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Stats -->
+  <section id="stats" class="py-16 border-y border-white/5 bg-black/50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+        <div class="text-center">
+          <div class="text-3xl md:text-4xl font-bold text-white mb-1">193K+</div>
+          <div class="text-sm text-neutral-500">Bot Installs</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl md:text-4xl font-bold text-white mb-1">1.9M</div>
+          <div class="text-sm text-neutral-500">Active Groups</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl md:text-4xl font-bold text-white mb-1">107K+</div>
+          <div class="text-sm text-neutral-500">Raids Completed</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl md:text-4xl font-bold text-white mb-1">&lt;1s</div>
+          <div class="text-sm text-neutral-500">Alert Speed</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features / Ecosystem -->
+  <section id="features" class="py-24">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-gold-500/30 bg-gold-500/10 text-gold-400 text-xs font-medium mb-4">
+          THE ECOSYSTEM
+        </div>
+        <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">Power Suite</h2>
+        <p class="text-neutral-400 max-w-2xl mx-auto">
+          A suite of interconnected tools designed to amplify your project's presence on Solana. From tracking to raiding, we provide the infrastructure for growth.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- BuyBot -->
+        <div class="card rounded-2xl p-6 md:p-8 transition duration-300">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/15 flex items-center justify-center text-2xl mb-5">⚡</div>
+          <h3 class="text-xl font-bold text-white mb-3">Cherry BuyBot</h3>
+          <p class="text-neutral-400 text-sm leading-relaxed mb-5">
+            The fastest on-chain buy tracker for Solana. Supports both Pump.fun bonding curves and standard DEX pairs. Customizable GIF alerts, trending visuals, and instant notifications.
+          </p>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span> Real-time Transaction Tracking</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span> Customizable Telegram Alerts</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span> Pump.fun & Raydium Support</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span> Market Cap & Holder Stats</li>
+          </ul>
+        </div>
+
+        <!-- Raid Matrix -->
+        <div class="card rounded-2xl p-6 md:p-8 transition duration-300">
+          <div class="w-12 h-12 rounded-xl bg-rose-500/15 flex items-center justify-center text-2xl mb-5">🎯</div>
+          <h3 class="text-xl font-bold text-white mb-3">Raid Matrix</h3>
+          <p class="text-neutral-400 text-sm leading-relaxed mb-5">
+            Coordinate your community's power on X (Twitter). Set targets for likes, reposts, and comments. Gamify engagement with leaderboards and boost social sentiment.
+          </p>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span> Automated Engagement Tracking</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span> Community Leaderboards</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span> Anti-Bot Verification</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span> Viral Campaign Management</li>
+          </ul>
+        </div>
+
+        <!-- Trending -->
+        <div class="card rounded-2xl p-6 md:p-8 transition duration-300">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/15 flex items-center justify-center text-2xl mb-5">📈</div>
+          <h3 class="text-xl font-bold text-white mb-3">Trending Tokens</h3>
+          <p class="text-neutral-400 text-sm leading-relaxed mb-5">
+            Discover the hottest tokens on Solana in real-time. Track performance, market cap, and price changes across both Pump.fun and DEX pairs.
+          </p>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span> Real-time Price Tracking</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span> Performance Rankings</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span> Pump.fun & DEX Support</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-gold-400"></span> Live Market Data</li>
+          </ul>
+        </div>
+
+        <!-- Community Voting -->
+        <div class="card rounded-2xl p-6 md:p-8 transition duration-300 relative overflow-hidden">
+          <div class="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-medium border border-purple-500/30">
+            Coming Soon
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-purple-500/15 flex items-center justify-center text-2xl mb-5">👍</div>
+          <h3 class="text-xl font-bold text-white mb-3">Community Voting</h3>
+          <p class="text-neutral-400 text-sm leading-relaxed mb-5">
+            Let your community decide! Verified Telegram members can vote for their favorite projects. Real engagement, real votes, real community power.
+          </p>
+          <ul class="space-y-2 text-sm text-neutral-300">
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span> Telegram Verified Voting</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span> Community Rankings</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span> Anti-Bot Protection</li>
+            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-purple-400"></span> Real-time Vote Counts</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Developers -->
+  <section id="developers" class="py-24 bg-gradient-to-b from-transparent to-black/80">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Built for Developers & Communities</h2>
+        <p class="text-neutral-400 max-w-xl mx-auto">Enterprise-grade infrastructure powering thousands of Solana projects.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="card rounded-2xl p-6 text-center">
+          <div class="w-12 h-12 mx-auto rounded-xl bg-green-500/15 flex items-center justify-center text-2xl mb-4">🛡️</div>
+          <h3 class="text-lg font-semibold text-white mb-2">Enterprise Security</h3>
+          <p class="text-sm text-neutral-400">Bank-grade encryption and secure wallet integration for all admin actions.</p>
+        </div>
+        <div class="card rounded-2xl p-6 text-center">
+          <div class="w-12 h-12 mx-auto rounded-xl bg-blue-500/15 flex items-center justify-center text-2xl mb-4">🔗</div>
+          <h3 class="text-lg font-semibold text-white mb-2">High Availability</h3>
+          <p class="text-sm text-neutral-400">99.99% uptime with redundant RPC nodes ensuring no missed alerts.</p>
+        </div>
+        <div class="card rounded-2xl p-6 text-center">
+          <div class="w-12 h-12 mx-auto rounded-xl bg-amber-500/15 flex items-center justify-center text-2xl mb-4">&lt;/&gt;</div>
+          <h3 class="text-lg font-semibold text-white mb-2">API Access</h3>
+          <p class="text-sm text-neutral-400">Integrate our tracking data directly into your own dApps and websites.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-24">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Ready to level up your community?</h2>
+      <p class="text-neutral-400 mb-8">Join thousands of Solana projects already using Cherry Bot.</p>
+      <a href="https://t.me/CherryTGBot" target="_blank" rel="noopener" class="btn-gold inline-flex items-center gap-2 px-8 py-4 rounded-full text-lg">
+        Launch Cherry Bot
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/5 py-12">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🍒</span>
+          <span class="font-bold text-white">CHERRYBOT</span>
+        </div>
+        <div class="flex flex-wrap items-center justify-center gap-6 text-sm text-neutral-500">
+          <a href="https://t.me/CherryTGBot" target="_blank" rel="noopener" class="hover:text-gold-400 transition">Telegram Bot</a>
+          <a href="https://t.me/cherrytrending" target="_blank" rel="noopener" class="hover:text-gold-400 transition">Trending</a>
+          <a href="https://t.me/cherrycommunity" target="_blank" rel="noopener" class="hover:text-gold-400 transition">Community</a>
+          <a href="https://x.com/cherrytgbot" target="_blank" rel="noopener" class="hover:text-gold-400 transition">X / Twitter</a>
+          <a href="https://cherrybot.net" target="_blank" rel="noopener" class="hover:text-gold-400 transition">cherrybot.net</a>
+        </div>
+      </div>
+      <div class="mt-8 text-center text-xs text-neutral-600">
+        © 2026 Cherry Bot. All rights reserved. · Domain: cherrybot.io
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
